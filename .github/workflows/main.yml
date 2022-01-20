@@ -111,6 +111,7 @@ jobs:
             do
               conan export . $x/$v@CHM/stable
             done
+            cd ..
           done
       - name: Build
         run: |
@@ -121,6 +122,7 @@ jobs:
             do
               conan create . $x/$v@CHM/stable --build missing
             done
+            cd ..
           done
 
       - name: Upload
