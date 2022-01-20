@@ -1,0 +1,12 @@
+sources:
+  "12.18.1":
+    url: "https://github.com/trilinos/Trilinos/archive/trilinos-release-12-18-1.zip"
+    sha256: "b568f1b961a6c1ae97de3a7ff4a05d467c506c97603e4e9a21958110b2c07c0c"
+  "13.0.1":
+    url: "https://github.com/trilinos/Trilinos/archive/trilinos-release-13-0-1.tar.gz"
+  "master":
+    url: "https://github.com/trilinos/Trilinos/archive/refs/heads/master.zip"
+  "chm":
+    url: "https://github.com/Chrismarsh/Trilinos/archive/refs/heads/cherrypick_kokkos_for_chm.zip"
+  "develop":
+    url: "https://github.com/trilinos/Trilinos/archive/refs/heads/develop.zip"

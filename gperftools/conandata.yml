@@ -1,0 +1,5 @@
+sources:
+  "2.7":
+    url: "https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.zip"
+  "2.8.1":
+    url: "https://github.com/gperftools/gperftools/releases/download/gperftools-2.8.1/gperftools-2.8.1.tar.gz"

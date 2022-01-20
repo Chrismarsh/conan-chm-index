@@ -1,0 +1,5 @@
+sources:
+  "2.0.3":
+    url: "https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.3.tar.gz"
+  "2.0.4":
+    url: "https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.tar.gz"
