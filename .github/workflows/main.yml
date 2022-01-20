@@ -24,6 +24,8 @@ env:
   CONAN_REQUEST_TIMEOUT: 600
   CONAN_RETRY: 30
   CONAN_RETRY_WAIT: 60
+  CONAN_BUILD_POLICY: "missing"
+  CONAN_UPLOAD_DEPENDENCIES: "all"
   MAKEFLAGS: "-j2"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -120,14 +122,12 @@ jobs:
             cd $x
             for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
-              conan create . $x/$v@CHM/stable --build missing
+              export CONAN_REFERENCE=$x/$v
+              python build.py
             done
             cd ..
           done
 
-      - name: Upload
-        run: |
-          conan upload "*" --all -r CHM -c --skip-upload
           
 
 
