@@ -81,10 +81,9 @@ jobs:
           else
             VERSION=$(echo "$CFG_OS" | cut -d'-' -f2)
             echo "MacOS $VERSION"
-            if [[ ! $VERSION =~ "\." ]]; 
+            if [[ "$VERSION" == "11" ]]; 
             then 
-              VERSION=$(printf '%.1f' "$VERSION")
-              echo "Updating to $VERSION"
+              VERSION="11.0"
             fi
             conan profile update settings.os.version="$VERSION" default
           fi
