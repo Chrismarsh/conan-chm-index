@@ -80,9 +80,11 @@ jobs:
             conan profile update settings.os.distro="$CFG_OS" default
           else
             VERSION=$(echo "$CFG_OS" | cut -d'-' -f2)
+            echo "MacOS $VERSION"
             if [[ ! $VERSION =~ "\." ]]; 
             then 
               VERSION=$(printf '%.1f' "$VERSION")
+              echo "Updating to $VERSION"
             fi
             conan profile update settings.os.version="$VERSION" default
           fi
