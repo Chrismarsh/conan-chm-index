@@ -61,6 +61,13 @@ jobs:
           pip install conan --upgrade
           pip install conan_package_tools
 
+      #already installed on linux images
+      - name: Install yq
+        if: startsWith( matrix.cfg.os, 'macos' )
+        run: | 
+          export PATH="$pythonLocation:$PATH"
+          brew install yq 
+
       - name: Setup conan
         run: |
           conan profile new default --detect
@@ -96,7 +103,6 @@ jobs:
           CONAN_APPLE_CLANG_VERSIONS: ${{ matrix.cfg.version }}
 
       - name: Export
-        uses: mikefarah/yq@master
         run: |
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
@@ -109,7 +115,6 @@ jobs:
             done
           done
       - name: Build
-        uses: mikefarah/yq@master
         run: |
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
@@ -123,7 +128,6 @@ jobs:
           done
 
       - name: Upload
-        uses: mikefarah/yq@master
         run: |
           conan upload "*" --all -r CHM -c --skip-upload
           
