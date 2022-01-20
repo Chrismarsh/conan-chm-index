@@ -107,9 +107,7 @@ jobs:
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
             cd $x
-            versions=$(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
-
-            for v in versions
+            for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
               conan export . $x/$v@CHM/stable
             done
@@ -119,9 +117,7 @@ jobs:
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
             cd $x
-            versions=$(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
-
-            for v in versions
+            for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
               conan create . $x/$v@CHM/stable --build missing
             done
