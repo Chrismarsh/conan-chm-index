@@ -1,0 +1,17 @@
+sources:
+  1.71.0:
+    url: "https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2"
+  1.75.0:
+    url: "https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.bz2"
+patches:
+  1.71.0:
+    - patch_file: "patches/bcp_namespace_issues_1_71.patch"
+      base_path: "boost_1_71_0"
+    - patch_file: "patches/jam_strings_1_71.patch"
+      base_path: "boost_1_71_0"
+    - patch_file: "patches/boost_build_qcc_fix_debug_build_parameter.patch"
+      base_path: "boost_1_71_0"
+    - patch_file: "patches/boost_core_qnx_cxx_provide___cxa_get_globals.patch"
+      base_path: "boost_1_71_0"
+    - patch_file: "patches/python_base_prefix.patch"
+      base_path: "boost_1_71_0"
