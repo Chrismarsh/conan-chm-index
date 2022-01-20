@@ -27,6 +27,7 @@ env:
   CONAN_BUILD_POLICY: "missing"
   CONAN_UPLOAD_DEPENDENCIES: "all"
   MAKEFLAGS: "-j2"
+  USE_MPI: False
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -63,7 +64,7 @@ jobs:
           pip install conan --upgrade
           pip install conan_package_tools
 
-      #already installed on linux images
+      # already installed on linux images
       - name: Install yq
         if: startsWith( matrix.cfg.os, 'macos' )
         run: | 
