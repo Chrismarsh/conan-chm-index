@@ -25,8 +25,8 @@ class GdalConan(ConanFile):
                "netcdf": [True, False] }
     
     default_options = {"shared": True,
-     "libcurl": False, 
-     "netcdf": False}
+                         "libcurl": True, 
+                         "netcdf": True}
 
     
     exports_sources = ['patches/*']
@@ -46,7 +46,7 @@ class GdalConan(ConanFile):
         else:
             self.requires("proj/[>=7]@CHM/stable")
 
-        self.requires("libiconv/1.15")
+        self.requires("libiconv/[>=1.15]")
 
         if self.options.netcdf:
             self.requires("netcdf-c/[>=4.6]@CHM/stable")
