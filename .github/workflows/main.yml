@@ -53,6 +53,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -114,7 +116,7 @@ jobs:
           CONAN_APPLE_CLANG_VERSIONS: ${{ matrix.cfg.version }}
           GFORTRAN_NAME: gfortran-10 # set the name to use for gfortran as we need to use gfotran-<version>
 
-      - name: Export
+      - name: Export conan sources
         run: |
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
@@ -125,7 +127,27 @@ jobs:
             done
             cd ..
           done
-      - name: Build
+ 
+      - name: Build changed
+        if: github.event_name == 'push'
+        run: |
+          for x in $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)
+          do
+            if [[ "$x" == ".github" ]]
+            then
+              continue
+            fi
+            
+            cd $x
+            for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
+            do
+              echo "$x/$v"
+            done
+            cd ..
+          done
+
+      - name: Build All
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         run: |
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
@@ -133,7 +155,8 @@ jobs:
             for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
               export CONAN_REFERENCE=$x/$v
-              python build.py
+              echo "$x/$v"
+              #python build.py
             done
             cd ..
           done
