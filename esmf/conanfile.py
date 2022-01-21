@@ -16,7 +16,7 @@ class ESMFConan(ConanFile):
     generators = "cmake"
 
     _source_folder = 'esmf'
-    
+    exports_sources = ['patches/*']
     _autotools = None
 
     def source(self):
@@ -41,6 +41,12 @@ class ESMFConan(ConanFile):
                     replace=f"ESMF_F90DEFAULT         = {gfortran}")
         except KeyError as e:
             pass # we aren't running in a CI environemnt
+
+        try:
+            for patch in self.conan_data["patches"][self.version]:
+                tools.patch(**patch)
+        except KeyError as e:
+            pass # we might not have a patch for this version
         
 
     def _configure_autotools(self):
@@ -83,8 +89,8 @@ class ESMFConan(ConanFile):
         esmf_envars["ESMF_DIR"] = os.path.join(self.build_folder,self._source_folder)
         esmf_envars["ESMF_COMM"] = "mpiuni"
 
-        # if is_gfortran_10:
-            # esmf_envars["ESMF_F90COMPILEOPTS"] = "-fallow-argument-mismatch -fallow-invalid-boz"
+        if is_gfortran_10:
+            esmf_envars["ESMF_F90COMPILEOPTS"] = "-fallow-argument-mismatch"
 
         return esmf_envars
 

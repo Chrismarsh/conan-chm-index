@@ -1,7 +1,11 @@
 sources:
-  "8.0.1":
+  8.0.1:
     url: "https://github.com/esmf-org/esmf/archive/ESMF_8_0_1.tar.gz"
-  "8.1.1":
+  8.1.1:
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_1_1.tar.gz"
-  "8.2.0":
+  8.2.0:
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_2_0.tar.gz"
+patches:
+  8.2.0:
+    - patch_file: "patches/esmf_8_2_0_clang12.patch"
+      base_path: "esmf"
