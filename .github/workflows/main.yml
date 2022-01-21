@@ -19,8 +19,8 @@ env:
   CONAN_UPLOAD: "http://conan.snowcast.ca:8081/artifactory/api/conan/chm"
   CONAN_LOGIN_USERNAME: "github"
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-  CONAN_STABLE_BRANCH_PATTERN: "stable/*"
-  CONAN_UPLOAD_ONLY_WHEN_STABLE: "1"
+  #  CONAN_STABLE_BRANCH_PATTERN: "stable/*"
+  #  CONAN_UPLOAD_ONLY_WHEN_STABLE: "1"
   CONAN_REQUEST_TIMEOUT: 600
   CONAN_RETRY: 30
   CONAN_RETRY_WAIT: 60
@@ -159,8 +159,3 @@ jobs:
             done
             cd ..
           done
-
-          
-
-
-
