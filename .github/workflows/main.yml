@@ -141,7 +141,7 @@ jobs:
             cd $x
             for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
-              echo "$x/$v"
+              python build.py
             done
             cd ..
           done
@@ -155,8 +155,7 @@ jobs:
             for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
               export CONAN_REFERENCE=$x/$v
-              echo "$x/$v"
-              #python build.py
+              python build.py
             done
             cd ..
           done
