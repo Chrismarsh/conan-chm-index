@@ -28,6 +28,10 @@ class FuncConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions["USE_QUADMATH"] = False
 
+        #this will let it find the impl .so that is built beside us, only an issue on linux
+        if not tools.os_info.is_macos:
+            cmake.definitions["CMAKE_INSTALL_RPATH"]="\$ORIGIN/"
+            
         cmake.configure(source_folder=self._source_folder)
         
         return cmake
