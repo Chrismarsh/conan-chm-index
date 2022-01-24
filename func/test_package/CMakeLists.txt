@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(KEEP_RPATHS)
-
+set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 # find_package(func REQUIRED)
 # message(STATUS ${func_INCLUDE_DIRS})
 ### Examples demonstrating the usage of FunC
