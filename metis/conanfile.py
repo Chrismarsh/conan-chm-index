@@ -49,4 +49,4 @@ class MetisConan(ConanFile):
                 self.run('make install', run_environment=True)
 
     def package_info(self):
-        return
+        self.cpp_info.libs = tools.collect_libs(self)
