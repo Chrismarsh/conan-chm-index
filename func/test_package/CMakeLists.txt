@@ -11,11 +11,11 @@ message(STATUS ${func_INCLUDE_DIRS})
 ### Examples demonstrating the usage of FunC
 
 ## Computing maximum errors of all of the implementation types for varying step size
-add_executable(compute_max_err_of_tables compute_max_err_of_tables.cpp)
-target_link_libraries(compute_max_err_of_tables func::func)
+# add_executable(compute_max_err_of_tables compute_max_err_of_tables.cpp)
+# target_link_libraries(compute_max_err_of_tables func::func)
 
-# add_executable(experiment experiment.cpp)
-# target_link_libraries(experiment func::func)
+# # add_executable(experiment experiment.cpp)
+# # target_link_libraries(experiment func::func)
 
-# add_executable(generate_tables_at_tol generate_tables_at_tol.cpp)
-# target_link_libraries(generate_tables_at_tol func::func)
+add_executable(generate_tables_at_tol generate_tables_at_tol.cpp)
+target_link_libraries(generate_tables_at_tol func::func)
