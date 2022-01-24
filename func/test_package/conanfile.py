@@ -6,7 +6,7 @@ class DefaultNameConan(ConanFile):
     name = "DefaultName"
     settings = "os", "compiler", "build_type", "arch"
     
-    generators = "cmake_find_package"
+    generators = "cmake"
 
     def build(self):
         cmake = CMake(self)
@@ -14,4 +14,4 @@ class DefaultNameConan(ConanFile):
         cmake.build()
 
     def test(self):
-        self.run(".%sgenerate_tables_at_tol" %os.sep)
+        self.run("./bin/generate_tables_at_tol")
