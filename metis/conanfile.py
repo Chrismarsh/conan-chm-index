@@ -9,7 +9,7 @@ class MetisConan(ConanFile):
     generators = "cmake"
     license = "http://glaros.dtc.umn.edu/gkhome/metis/metis/download"
     url="http://glaros.dtc.umn.edu/gkhome/metis/metis/download"
-    settings = None
+    settings = "os", "arch", "compiler", "build_type"
 
     options = { 
         "shared" :[True, False]
