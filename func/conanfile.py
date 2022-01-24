@@ -1,5 +1,5 @@
 from conans import ConanFile, CMake, tools
-
+import os
 
 class FuncConan(ConanFile):
     name = "func"
@@ -15,9 +15,9 @@ class FuncConan(ConanFile):
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
-        os.rename("func-master", self._folder )
+        os.rename("func-master", self._source_folder )
 
-        tools.replace_in_file("src/CMakeLists.txt", "target_link_libraries(func PUBLIC ","target_link_libraries(func PUBLIC Boost::Boost")
+        tools.replace_in_file("func/src/CMakeLists.txt", "target_link_libraries(func PUBLIC ","target_link_libraries(func PUBLIC Boost::Boost")
 
 
     def requirements(self):
@@ -28,7 +28,7 @@ class FuncConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions["USE_QUADMATH"] = False
 
-        cmake.configure()
+        cmake.configure(source_folder=self._source_folder)
         
         return cmake
 
@@ -42,6 +42,9 @@ class FuncConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
+
+    def validate(self):
+        tools.check_min_cppstd(self, "11")
 
 
 

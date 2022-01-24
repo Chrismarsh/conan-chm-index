@@ -4,7 +4,6 @@ from conans import ConanFile, CMake
 
 class DefaultNameConan(ConanFile):
     name = "DefaultName"
-    version = "0.1"
     settings = "os", "compiler", "build_type", "arch"
     
     generators = "cmake_find_package"
@@ -15,4 +14,4 @@ class DefaultNameConan(ConanFile):
         cmake.build()
 
     def test(self):
-        self.run(".%stest" %os.sep)
+        self.run(".%sgenerate_tables_at_tol" %os.sep)
