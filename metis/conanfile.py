@@ -38,7 +38,7 @@ class MetisConan(ConanFile):
             self.env_build = AutoToolsBuildEnvironment(self)
             with tools.environment_append(self.env_build.vars):
 
-                make_config = 'make config ' + ' '.join(config_args) + ' prefix=' + self.package_folder 
+                make_config = 'make config ' + ' '.join(config_args) + ' prefix=' + self.package_folder + ' assert=1'
                 self.run(make_config, run_environment=True)
                 self.run('make -j2', run_environment=True)
 

@@ -1,5 +1,3 @@
 sources:
   "5.1.0":
     url: "http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz"
-  "5.1.1":
-    url: "https://github.com/KarypisLab/METIS/archive/refs/tags/v5.1.1-DistDGL-v0.5.tar.gz"
