@@ -5,7 +5,6 @@ from conans.tools import download, unzip
 class MetisConan(ConanFile):
     name = "metis"
     description = "METIS is a set of serial programs for partitioning graphs, partitioning finite element meshes, and producing fill reducing orderings for sparse matrices. The algorithms implemented in METIS are based on the multilevel recursive-bisection, multilevel k-way, and multi-constraint partitioning schemes developed in our lab.  "
-    version = "5.1.0"
     generators = "cmake"
     license = "http://glaros.dtc.umn.edu/gkhome/metis/metis/download"
     url="http://glaros.dtc.umn.edu/gkhome/metis/metis/download"
