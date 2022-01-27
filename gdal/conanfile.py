@@ -59,152 +59,66 @@ class GdalConan(ConanFile):
         tools.get(**self.conan_data["sources"][self.version])
         os.rename("gdal-{}".format(self.version), self._folder )
   
-        if tools.os_info.is_macos:
-            tools.replace_in_file("%s/configure" % self._folder, r"-install_name \$rpath/", "-install_name @rpath/")
-            tools.replace_in_file("%s/m4/libtool.m4" % self._folder, r"-install_name \$rpath/", "-install_name @rpath/")
+ 
+    def configure_cmake(self):
+        cmake = CMake(self)
+        cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
+        cmake.definitions["CMAKE_BUILD_TYPE"] = "Release"
 
-        if self.settings.os != "Windows":
-            self.run("chmod +x ./%s/configure" % self._folder)
-
-
-        # Work around this sillyness on macos. Tldr of the problem is that unless the install_name of the dylib is the full conan path
-        # any child process run from configure won't be able to find it as DYLIB paths aren't passed in as per
-        # https://stackoverflow.com/questions/35568122/why-isnt-dyld-library-path-being-propagated-here
-        # and the conan RunEnv is not enough on macos
-        # https://docs.conan.io/en/latest/reference/build_helpers/run_environment.html
-        # so the work around is to embed all the conan library paths into the rpath of the test executables configure makes 
-        if tools.os_info.is_macos:
-            env_build = RunEnvironment(self)
-            with tools.environment_append(env_build.vars):   
-       
-                rpath='-Wl,-rpath '
-                try:
-                    envar = os.environ['DYLD_LIBRARY_PATH']
-                    rpath += envar 
-                except:
-                    pass
-                rpath = rpath.replace(':',' -Wl,-rpath ')
-
-              
-                tools.replace_in_file("%s/configure" % (self._folder), 
-                        """ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'""",
-                        """ac_link='$CC  -o conftest$ac_exeext $CFLAGS $CPPFLAGS %s $LDFLAGS conftest.$ac_ext $LIBS >&5'"""% (rpath))
-
-
-    def build(self):
-        config_args = ["--with-geos=yes"]
-        if self.options.shared:
-            config_args += ["--disable-static", "--enable-shared"]
-        else:
-            config_args += [
-                "--without-ld-shared", "--disable-shared", "--enable-static",
-            ]
-
-        config_args += ['--disable-rpath']
-
+        cmake.definitions["GDAL_USE_CURL"] = self.options.libcurl
         if self.options.libcurl:
             curl_config = StringIO()
             self.run('which curl-config', output = curl_config)
             curl_config=curl_config.getvalue().rstrip()
 
-            config_args += ["--with-curl="+curl_config]
-        else:
-            config_args += ["--without-curl"]
+            cmake.definitions["CURL_INCLUDE_DIR"] = curl_config
 
-        config_args += ["--with-proj="+self.deps_cpp_info["proj"].rootpath]
-        config_args += ["--without-geos"]
-        config_args += ["--with-geotiff=internal"]
-        config_args += ["--with-hide-internal-symbols"]
-        config_args += ["--with-libtiff=internal"]
-        config_args += ["--with-libz=internal"]
-        config_args += ["--with-libjson-c=internal"]
-        config_args += ["--with-threads"]
-        config_args += ["--without-bsb"]
-        config_args += ["--without-cfitsio"]
-        config_args += ["--without-cryptopp"]
-        config_args += ["--without-ecw"]
-        config_args += ["--without-expat"]
-        config_args += ["--without-fme"]
-        config_args += ["--without-freexl"]
-        config_args += ["--without-gif"]
-        config_args += ["--without-gif"]
-        config_args += ["--without-gnm"]
-        config_args += ["--without-grass"]
-        config_args += ["--without-grib"]
-        config_args += ["--without-hdf4"]
-        config_args += ["--without-hdf5"]
-        config_args += ["--without-idb"]
-        config_args += ["--without-ingres"]
-        config_args += ["--without-jasper"]
-        config_args += ["--without-jp2mrsid"]
-        config_args += ["--with-jpeg=internal"]
-        config_args += ["--without-jpeg12"]
-        config_args += ["--without-kakadu"]
-        config_args += ["--without-libgrass"]
-        config_args += ["--without-libkml"]
-        config_args += ["--without-libtool"]
-        config_args += ["--without-mrf"]
-        config_args += ["--without-mrsid"]
-        config_args += ["--without-mysql"]
+        cmake.definitions["GDAL_USE_LIBGEOTIFF_INTERNAL"]=True
+        cmake.definitions["GDAL_USE_LIBJSONC_INTERNAL"]=True
+        cmake.definitions["GDAL_USE_LIBTIFF_INTERNAL"]=True
+        cmake.definitions["GDAL_USE_ZLIB_INTERNAL"]=True
+        cmake.definitions["GDAL_USE_LIBJPEG_INTERNAL"]=True
+        cmake.definitions["GDAL_USE_LIBPNG_INTERNAL"]=True
 
+        cmake.definitions["PROJ_INCLUDE_DIR"]=self.deps_cpp_info["proj"].rootpath+"/include/"
+
+        cmake.definitions["BUILD_PYTHON_BINDINGS"]=False
+
+        cmake.definitions["GDAL_USE_NETCDF"]=elf.options.netcdf
         if self.options.netcdf:
-            config_args += ["--with-netcdf=" + self.deps_cpp_info["netcdf-c"].rootpath ]
-        else:
-            config_args += ["--without-netcdf"]
-        
-        config_args += ["--without-odbc"]
-        config_args += ["--without-ogdi"]
-        config_args += ["--without-openjpeg"]
-        config_args += ["--without-pcidsk"]
-        config_args += ["--without-pcraster"]
-        config_args += ["--without-pcre"]
-        config_args += ["--without-perl"]
-        config_args += ["--without-pg"]
-        config_args += ["--with-png=internal"]
-        config_args += ["--without-python"]
-        config_args += ["--without-qhull"]
-        config_args += ["--without-sfcgal"]
-        config_args += ["--without-sde"]
-        config_args += ["--without-sqlite3"]
-        config_args += ["--without-webp"]
-        config_args += ["--without-xerces"]
-        config_args += ["--without-xml2"]
-        config_args += ["--without-crypto"]
-        config_args += ["--without-kea"]
-        config_args += ["--without-zstd"]
+            cmake.definitions["NETCDF_INCLUDE_DIR"] = self.deps_cpp_info["netcdf-c"].rootpath+"/include/"
 
-        run_str = './configure ' + ' '.join(config_args)
-        run_str += ' --prefix ' + self.package_folder
+
+        if tools.os_info.is_macos:
+            cmake.definitions["CMAKE_INSTALL_NAME_DIR"] = '@rpath' #self.package_folder+'/lib'
 
 
 
-        with tools.chdir(self._folder):
-            self.env_build = AutoToolsBuildEnvironment(self)
-            with tools.environment_append(self.env_build.vars):
+        cmake.configure(source_folder=self._folder)
+        return cmake
 
-                # use these such that on linux we correctly pass through the LD_LIBRARY_PATH to the child test exes
-                self.run(run_str, run_environment=True)
-                self.run('make -j2', run_environment=True)
-                
 
+    def build(self):
+
+       
+        cmake = self.configure_cmake()
+        cmake.build()
 
 
 
     def package(self):
-        with tools.chdir(self._folder):
-            with tools.environment_append(self.env_build.vars):
-                self.run('make install', run_environment=True)
-        
+        cmake = self.configure_cmake()
+        cmake.install()        
         # strip any hard coded install_name from the dylibs to simplify downstream use
-        if tools.os_info.is_macos:
-            for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'lib')):
-                for name in names:
+        # if tools.os_info.is_macos:
+        #     for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'lib')):
+        #         for name in names:
 
-                    if fnmatch(name, '*.dylib*'):
-                        so_file = os.path.join(path, name)
+        #             if fnmatch(name, '*.dylib*'):
+        #                 so_file = os.path.join(path, name)
 
-                        cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
-                        os.system(cmd)
+        #                 cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
+        #                 os.system(cmd)
 
 
     def package_info(self):
