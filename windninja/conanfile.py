@@ -121,6 +121,8 @@ class WindNinjaConan(ConanFile):
         else:
             cmake.definitions["CMAKE_INSTALL_RPATH"] = "\$ORIGIN/../lib"
 
+        cmake.definitions["CMAKE_BUILD_WITH_INSTALL_RPATH"] = True
+
         cmake.verbose = True
 
         cmake.configure(source_folder=self._source_folder)
@@ -130,19 +132,6 @@ class WindNinjaConan(ConanFile):
     def build(self):
         cmake = self._configure_cmake()
         cmake.build()
-
-        # strip any hard coded install_name from the dylibs to simplify downstream use
-        if not tools.os_info.is_macos:
-            for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'bin')):
-                for name in names:
-                    if fnmatch(name, 'WindNinja_cli'):
-                        bin_file = os.path.join(path, name)
-
-                        cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
-                        cmd = """readelf %s -d | grep NEEDED |awk '{print $5}' | grep '\\[/'  | awk -F'[\\\[\\\]]' '{print $2}' | while read x; do patchelf --replace-needed $x `echo $x | grep -Eo '[a-zA-Z0-9_+\\.-]+so.*?'` %s; done"""  %(bin_file,bin_file)
-
-                        os.system(cmd)
-
 
     def package(self):
         cmake = self._configure_cmake()
