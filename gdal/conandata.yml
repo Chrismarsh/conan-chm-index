@@ -3,5 +3,5 @@ sources:
     url: "https://download.osgeo.org/gdal/3.2.1/gdal-3.2.1.tar.gz"
   3.2.2:
     url: "https://download.osgeo.org/gdal/3.2.2/gdal-3.2.2.tar.gz"
-  3.4.0:
+  3.4.1:
     url: "https://github.com/OSGeo/gdal/releases/download/v3.4.1/gdal-3.4.1.tar.gz"
