@@ -70,6 +70,13 @@ class NetcdfcConan(ConanFile):
         if tools.os_info.is_macos:
             cmake.definitions["CMAKE_INSTALL_NAME_DIR"] = '@rpath' #self.package_folder+'/lib'
 
+        if tools.os_info.is_macos:
+            cmake.definitions["CMAKE_INSTALL_RPATH"] = "@executable_path"
+        else:
+            cmake.definitions["CMAKE_INSTALL_RPATH"] = "\$ORIGIN"
+
+        cmake.definitions["CMAKE_BUILD_WITH_INSTALL_RPATH"] = True
+
         cmake.configure(source_folder="netcdf-c")
         return cmake
 
@@ -80,11 +87,6 @@ class NetcdfcConan(ConanFile):
     def package(self):
         cmake = self.configure_cmake()
         cmake.install()
-
-        # if tools.os_info.is_linux:
-        #     with tools.chdir(self.package_folder):
-        #         cmd = "patchelf --remove-rpath lib/libnetcdf.so"
-        #         os.system(cmd)
 
     def package_info(self):
         self.cpp_info.libs = ["netcdf"]
