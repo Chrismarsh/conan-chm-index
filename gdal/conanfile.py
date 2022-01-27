@@ -195,16 +195,23 @@ class GdalConan(ConanFile):
             with tools.environment_append(self.env_build.vars):
                 self.run('make install', run_environment=True)
         
-        # strip any hard coded install_name from the dylibs to simplify downstream use
-        if tools.os_info.is_macos:
-            for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'lib')):
-                for name in names:
 
-                    if fnmatch(name, '*.dylib*'):
-                        so_file = os.path.join(path, name)
+        for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'lib')):
+            for name in names:
 
-                        cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
-                        os.system(cmd)
+                if fnmatch(name, '*.dylib*'):
+                    so_file = os.path.join(path, name)
+
+                    cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
+                    os.system(cmd)
+
+                    cmd = "install_name_tool -add_rpath @executable_path {0}".format(so_file)
+
+                if fnmatch(name, '*.so*'):
+                    so_file = os.path.join(path, name)
+
+                    cmd = "patchelf --set-rpath \$ORIGIN {0}".format(so_file)
+                    os.system(cmd)
 
 
     def package_info(self):
