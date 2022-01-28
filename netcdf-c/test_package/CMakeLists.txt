@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(PackageTest)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(SKIP_RPATHS TARGETS)
+conan_basic_setup(KEEP_RPATHS TARGETS)
 
 if(APPLE)
     set(CMAKE_INSTALL_RPATH "@executable_path")

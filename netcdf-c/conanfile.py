@@ -96,10 +96,8 @@ class NetcdfcConan(ConanFile):
                 if fnmatch(name, '*.dylib*'):
                     so_file = os.path.join(path, name)
 
-                    cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
-                    os.system(cmd)
-
                     cmd = "install_name_tool -add_rpath @executable_path {0}".format(so_file)
+                    os.system(cmd)
 
                 if fnmatch(name, '*.so*'):
                     so_file = os.path.join(path, name)
