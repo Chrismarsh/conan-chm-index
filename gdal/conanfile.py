@@ -66,12 +66,13 @@ class GdalConan(ConanFile):
         if self.settings.os != "Windows":
             self.run("chmod +x ./%s/configure" % self._folder)
 
-        # as per
-        # https://lists.osgeo.org/pipermail/gdal-dev/2016-August/045023.html
-        # non libtool (which is what we are using here -- not sure why but it doesn't build if we don't!) do not
-        # have correct SONAMEs which results in consuming binaries embedding the full path to the so into the NEEDED field
-        # which makes the so not relocatable and scres up consumer dependency resolution
-        tools.replace_in_file("%s/GDALmake.opt.in" % self._folder, r"#GDAL_SLIB_SONAME =", "GDAL_SLIB_SONAME =")
+        if tools.os_info.is_linux:
+            # as per
+            # https://lists.osgeo.org/pipermail/gdal-dev/2016-August/045023.html
+            # non libtool (which is what we are using here -- not sure why but it doesn't build if we don't!) do not
+            # have correct SONAMEs which results in consuming binaries embedding the full path to the so into the NEEDED field
+            # which makes the so not relocatable and scres up consumer dependency resolution
+            tools.replace_in_file("%s/GDALmake.opt.in" % self._folder, r"#GDAL_SLIB_SONAME =", "GDAL_SLIB_SONAME =")
 
         # Work around this sillyness on macos. Tldr of the problem is that unless the install_name of the dylib is the full conan path
         # any child process run from configure won't be able to find it as DYLIB paths aren't passed in as per
