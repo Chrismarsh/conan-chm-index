@@ -88,5 +88,23 @@ class NetcdfcConan(ConanFile):
         cmake = self.configure_cmake()
         cmake.install()
 
+        # The above RPATH in build are not correctly setting this when packaged so just do it here
+        for path, subdirs, names in os.walk(os.path.join(self.package_folder, 'lib')):
+            for name in names:
+
+                if fnmatch(name, '*.dylib*'):
+                    so_file = os.path.join(path, name)
+
+                    cmd = "install_name_tool -id @rpath/{0} {1}".format(name, so_file)
+                    os.system(cmd)
+
+                    cmd = "install_name_tool -add_rpath @executable_path {0}".format(so_file)
+
+                if fnmatch(name, '*.so*'):
+                    so_file = os.path.join(path, name)
+
+                    cmd = "patchelf --set-rpath \$ORIGIN {0}".format(so_file)
+                    os.system(cmd)
+
     def package_info(self):
         self.cpp_info.libs = ["netcdf"]
