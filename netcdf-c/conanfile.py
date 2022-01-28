@@ -1,6 +1,7 @@
 from conans import ConanFile, CMake, tools
 from conans.errors import ConanInvalidConfiguration
 import os
+from fnmatch import fnmatch
 
 class NetcdfcConan(ConanFile):
     name = "netcdf-c"
