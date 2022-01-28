@@ -193,9 +193,6 @@ class GdalConan(ConanFile):
                 self.run('make -j2', run_environment=True)
                 
 
-
-
-
     def package(self):
         with tools.chdir(self._folder):
             with tools.environment_append(self.env_build.vars):
@@ -212,6 +209,7 @@ class GdalConan(ConanFile):
                     os.system(cmd)
 
                     cmd = "install_name_tool -add_rpath @executable_path {0}".format(so_file)
+                    os.system(cmd)
 
                 if fnmatch(name, '*.so*'):
                     so_file = os.path.join(path, name)
