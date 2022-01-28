@@ -123,6 +123,11 @@ class WindNinjaConan(ConanFile):
 
         cmake.definitions["CMAKE_BUILD_WITH_INSTALL_RPATH"] = True
 
+        # ensure we don't set the libninja.dylib's install_name to be the fully qualified path otherwise
+        # it won't be relocatable
+        if tools.os_info.is_macos:
+            cmake.definitions["CMAKE_INSTALL_NAME_DIR"] = '@rpath' 
+
         cmake.verbose = True
 
         cmake.configure(source_folder=self._source_folder)
