@@ -26,7 +26,7 @@ class Hdf5Conan(ConanFile):
         "parallel=False",
         "zlib:shared=False"
     )
-    generators = "virtualbuildenv"
+    generators = "cmake"
     source_subfolder = "hdf5"
 
     def requirements(self):
