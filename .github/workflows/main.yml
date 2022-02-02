@@ -24,7 +24,7 @@ env:
   CONAN_REQUEST_TIMEOUT: 600
   CONAN_RETRY: 30
   CONAN_RETRY_WAIT: 60
-  CONAN_BUILD_POLICY: "all"
+  CONAN_BUILD_POLICY: "missing"
   CONAN_UPLOAD_DEPENDENCIES: "all"
   MAKEFLAGS: "-j2"
   USE_MPI: False
@@ -127,7 +127,7 @@ jobs:
             done
             cd ..
           done
- 
+   
       - name: Build changed
         if: github.event_name == 'push'
         run: |
@@ -150,6 +150,7 @@ jobs:
       - name: Build All
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         run: |
+          export CONAN_BUILD_POLICY="all"
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
             cd $x
