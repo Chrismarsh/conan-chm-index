@@ -7,7 +7,7 @@ sources:
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_2_0.tar.gz"
   "8.2.1.03-beta":
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_2_1_beta_snapshot_03.tar.gz"
-  "8.3.0b10":
+  "8.3.0.10-beta":
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/v8.3.0b10.tar.gz"
 patches:
   8.2.0:
