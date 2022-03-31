@@ -27,9 +27,13 @@ class ESMFConan(ConanFile):
         for f in glob.glob("esmf-*"):
             os.rename(f, self._source_folder)
 
-        tools.replace_in_file(file_path=self._source_folder+'/src/Infrastructure/Mesh/src/Moab/moab/Util.hpp',
+        try:
+
+            tools.replace_in_file(file_path=self._source_folder+'/src/Infrastructure/Mesh/src/Moab/moab/Util.hpp',
                                search="define moab_isfinite(f) (!isinf(f) && !isnan(f))",
                                replace="define moab_isfinite(f) (!std::isinf(f) && !std::isnan(f))")
+        except ConanException as e:
+            pass # < 8.3 only
 
         try:
             # on macos under the github workflow env, gfortran is not symlinked and rather gfortran-<version> needs to be called
