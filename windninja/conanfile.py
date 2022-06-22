@@ -19,8 +19,11 @@ class WindNinjaConan(ConanFile):
 
     default_options = {
             "openmp":True, 
-            "gdal:libcurl":True, 
-            "gdal:netcdf":True
+            "*:shared": True,
+            "gdal:with_curl": True,
+            "gdal:with_netcdf": True,
+            "proj:with_curl": False
+
             }
 
     # build_policy = 'always' #as we track master, always build
@@ -57,13 +60,13 @@ class WindNinjaConan(ConanFile):
         tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindBoost)", " ")
         
         tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "find_package(GDAL REQUIRED)", " ")
-        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindGDAL)", "find_package(gdal REQUIRED)")
+        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindGDAL)", "find_package(GDAL REQUIRED)")
 
         #changes to support the conan finds
         tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "find_package(NetCDF REQUIRED)", ' ')
-        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindNetCDF)", '''find_package(netcdf-c REQUIRED)''')
+        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindNetCDF)", '''find_package(netcdf REQUIRED)''')
 
-        target_string = ' gdal::gdal '
+        target_string = ' GDAL::GDAL '
         if(self.options.openmp):
             target_string += ' OpenMP::OpenMP_CXX '
 
@@ -100,9 +103,9 @@ class WindNinjaConan(ConanFile):
 
     def requirements(self):
         self.requires( "boost/[>=1.75.0]@CHM/stable" )
-        self.requires( "proj/[>=7.0]@CHM/stable" )
-        self.requires( "gdal/[>=3]@CHM/stable" )
-        self.requires( "netcdf-c/[>=4.6.2]@CHM/stable")
+        self.requires( "proj/[>=7.0]" )
+        self.requires( "gdal/[>=3]" )
+        self.requires( "netcdf/[>=4.6.2]")
         
 
     def _configure_cmake(self):

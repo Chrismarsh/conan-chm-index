@@ -34,8 +34,12 @@ class NetcdfcConan(ConanFile):
                                     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
                                     conan_basic_setup()''')
 
+        tools.replace_in_file("netcdf-cxx4/CMakeLists.txt",
+            """CHECK_LIBRARY_EXISTS(${HDF5_C_LIBRARY_hdf5} H5free_memory "" HAVE_H5FREE_MEMORY)""",
+            "set(HAVE_H5FREE_MEMORY FALSE)")
+
     def requirements(self):
-        self.requires("netcdf-c/[>=4.6]@CHM/stable")
+        self.requires("netcdf/4.7.4")
 
 
     def configure_cmake(self):
