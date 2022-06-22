@@ -24,9 +24,6 @@ class CgalConan(ConanFile):
     def requirements(self):
         self.requires("boost/[>=1.70]@CHM/stable")
         self.requires("mpfr/[>=4.1.0]")
-        # if self.options.with_gmp:
-            # self.requires("gmp/[>=5.0]@CHM/stable")
-            # self.requires("mpfr/[>=3.0]@CHM/stable")
 
     def configure_cmake(self):
         with tools.environment_append(self.cmake_env_vars):
