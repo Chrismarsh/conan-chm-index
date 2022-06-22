@@ -45,9 +45,19 @@ class TrilinosConan(ConanFile):
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
-    requires = (
-        "zlib/[>=1.2]"
-    )
+    _use_conan_openblas = False
+
+    def requirements(self):
+        self.requires("zlib/[>=1.2]")
+
+        # we have not specified anything, use conan openblas
+        if not self.options.blas_root and not self.options.mkl_root:
+            self.requires("openblas/[>=0.3.17]")
+            self._use_conan_openblas = True
+
+
+
+
 
     def config_options(self):
         if self.settings.os not in ["Macos", "Linux"]:
@@ -68,12 +78,22 @@ class TrilinosConan(ConanFile):
 
         os.rename(extracted_dir, self._source_subfolder)
 
+    def configure(self):
+        if self._use_conan_openblas:
+            self.options['openblas'].build_lapack = True
+            self.options['openblas'].shared = True
+
     def _configure_cmake(self):
         cmake = CMake(self)
 
         if tools.os_info.is_macos and self.options.with_openmp and str(self.version) is not "chm": 
             print('!!! Macos and OMP not supported, setting with_openmp=false')
             self.options.with_openmp = False
+
+        if self._use_conan_openblas:
+            self.options.with_openblas = True
+            self.options.blas_root = self.deps_cpp_info["openblas"].rootpath + '/lib/'
+
 
         if self.options.with_mkl:
 
