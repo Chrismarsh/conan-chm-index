@@ -64,7 +64,7 @@ class WindNinjaConan(ConanFile):
 
         #changes to support the conan finds
         tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "find_package(NetCDF REQUIRED)", ' ')
-        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindNetCDF)", '''find_package(netcdf REQUIRED)''')
+        tools.replace_in_file(os.path.join(self._source_folder,"CMakeLists.txt"), "include(FindNetCDF)", '''find_package(netCDF REQUIRED)''')
 
         target_string = ' GDAL::GDAL '
         if(self.options.openmp):
