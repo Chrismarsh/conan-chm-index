@@ -20,10 +20,10 @@ class WindNinjaConan(ConanFile):
     default_options = {
             "openmp":True, 
             "*:shared": True,
+            "netcdf:dap": False,
             "gdal:with_curl": True,
             "gdal:with_netcdf": True,
             "proj:with_curl": False
-
             }
 
     # build_policy = 'always' #as we track master, always build
@@ -102,11 +102,11 @@ class WindNinjaConan(ConanFile):
 
 
     def requirements(self):
-        self.requires( "boost/[>=1.75.0]@CHM/stable" )
-        self.requires( "proj/[>=7.0]" )
+        self.requires("boost/[>=1.75.0]@CHM/stable" )
+        self.requires("proj/[>=7.0]" )
 
-        self.requires( "libdeflate/1.12",override=True)
-        self.requires( "gdal/[>=3]" )
+        self.requires("libdeflate/1.12",override=True)
+        self.requires("gdal/[>=3]" )
         self.requires("netcdf/4.7.4", override=True)
         
 
