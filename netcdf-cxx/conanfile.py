@@ -39,7 +39,7 @@ class NetcdfcConan(ConanFile):
             "set(HAVE_H5FREE_MEMORY FALSE)")
 
     def requirements(self):
-        self.requires("netcdf/4.7.4", override=True)
+        self.requires("netcdf/4.7.4")
 
 
     def configure_cmake(self):
