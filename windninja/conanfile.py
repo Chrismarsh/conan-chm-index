@@ -105,9 +105,9 @@ class WindNinjaConan(ConanFile):
         self.requires("boost/[>=1.75.0]@CHM/stable" )
         self.requires("proj/[>=7.0]" )
 
-        self.requires("libdeflate/1.12",override=True)
+        self.requires("libdeflate/1.12")
         self.requires("gdal/[>=3]" )
-        self.requires("netcdf/4.7.4", override=True)
+        self.requires("netcdf/4.7.4")
         
 
     def _configure_cmake(self):
