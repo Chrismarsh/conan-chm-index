@@ -4,12 +4,6 @@ name: CI
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the stable/proj7 branch
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 0 * * 0' # run every week
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -126,37 +120,15 @@ jobs:
           done
    
       - name: Build changed
-        if: github.event_name == 'push'
+        if: github.event_name == 'workflow_dispatch'
         run: |
-          for x in $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)
+          cd windninja
+          for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
           do
-            if [[ "$x" == ".github" ]]
-            then
-              continue
-            fi
-            
-            cd $x
-            for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
-            do
-              export CONAN_REFERENCE=$x/$v
-              python build.py
-            done
-            cd ..
+            export CONAN_REFERENCE=$x/$v
+            python build.py
           done
-
-      - name: Build All
-        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
-        run: |
-          export CONAN_BUILD_POLICY="all"
-          for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
-          do
-            cd $x
-            for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
-            do
-              export CONAN_REFERENCE=$x/$v
-              python build.py
-            done
-            cd ..
-          done
+          cd ..
+          
 
 
