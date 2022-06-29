@@ -122,7 +122,8 @@ jobs:
       - name: Build changed
         if: github.event_name == 'workflow_dispatch'
         run: |
-          cd windninja
+          x=windninja
+          cd $x
           for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
           do
             export CONAN_REFERENCE=$x/$v
