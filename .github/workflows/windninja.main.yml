@@ -36,12 +36,8 @@ jobs:
       matrix:
         python-version: [3.8]
         cfg:
-          - {os: "ubuntu-18.04", compiler: "gcc", version: 7}
-          - {os: "ubuntu-18.04", compiler: "gcc", version: 9}
-          - {os: "ubuntu-18.04", compiler: "gcc", version: 10}
           - {os: "ubuntu-20.04", compiler: "gcc", version: 9}
           - {os: "ubuntu-20.04", compiler: "gcc", version: 10}
-          - {os: "macos-11", compiler: "apple-clang", version: "13.0"}
           - {os: "macos-12", compiler: "apple-clang", version: "13.1"}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -64,7 +60,7 @@ jobs:
       # already installed on linux images
       - name: Install yq
         if: startsWith( matrix.cfg.os, 'macos' )
-        run: | 
+        run: |
           export PATH="$pythonLocation:$PATH"
           brew install yq 
 
