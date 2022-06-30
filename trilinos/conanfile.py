@@ -30,7 +30,7 @@ class TrilinosConan(ConanFile):
     }
     default_options = {
         "shared": True,
-        "*shared":True,
+        "*:shared":True,
         "with_all_packages": False,
         "with_belos": True,         # iterative solvers
         "with_ifpack2": True,       # preconditioners
