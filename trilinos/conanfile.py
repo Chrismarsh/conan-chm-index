@@ -30,6 +30,7 @@ class TrilinosConan(ConanFile):
     }
     default_options = {
         "shared": True,
+        "*shared":True,
         "with_all_packages": False,
         "with_belos": True,         # iterative solvers
         "with_ifpack2": True,       # preconditioners
@@ -39,7 +40,8 @@ class TrilinosConan(ConanFile):
         "with_openblas":False,
         "debug":False,
         "mkl_root": None,
-        "blas_root": None
+        "blas_root": None,
+        "openblas:build_lapack":True
     }
 
     _source_subfolder = "source_subfolder"
