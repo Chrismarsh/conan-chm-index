@@ -143,12 +143,12 @@ jobs:
       - name: Build All
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         run: |
-          export CONAN_BUILD_POLICY="all"
           for x in $(find . -not -path '*/.*'  -not -path '.' -type d -maxdepth 1 | sed "s|^\./||")
           do
             cd $x
             for v in $(yq e '.sources | keys' conandata.yml | awk '{ print $NF }' | sed 's/\"//g')
             do
+              alias gfortran='gfortran-11'
               export CONAN_REFERENCE=$x/$v
               python build.py
             done
