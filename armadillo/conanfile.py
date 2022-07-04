@@ -63,11 +63,11 @@ class ArmadilloConan(ConanFile):
         #                        search="#define ARMA_USE_BLAS",
         #                        replace="//#define ARMA_USE_BLAS")
 
-        if not self.options.link_with_mkl:
-            tools.replace_in_file(file_path=CMakeLists_path,
-                               search="include(ARMA_FindMKL)",
-                               replace="""#include(ARMA_FindMKL)
-                                        set(MKL_FOUND "NO")""")
+        # if not self.options.link_with_mkl:
+        tools.replace_in_file(file_path=CMakeLists_path,
+                           search="include(ARMA_FindMKL)",
+                           replace="""#include(ARMA_FindMKL)
+                                    set(MKL_FOUND "NO")""")
 
 
     def build(self):
