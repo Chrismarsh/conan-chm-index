@@ -23,7 +23,7 @@ class ArmadilloConan(ConanFile):
                        "with_blas":True,
                        "use_wrapper":False,
                        "shared":True,
-                       "*shared":
+                       "*:shared":True,
                         "openblas:build_lapack":True
                        )
     generators = "cmake_find_package"
