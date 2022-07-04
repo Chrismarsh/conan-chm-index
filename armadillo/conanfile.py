@@ -18,14 +18,14 @@ class ArmadilloConan(ConanFile):
         "with_blas":[True,False],
         "use_wrapper":[True,False],
         "shared":[True,False]}
-    default_options = (
+    default_options = {
                        "with_lapack":True,
                        "with_blas":True,
                        "use_wrapper":False,
                        "shared":True,
                        "*:shared":True,
                         "openblas:build_lapack":True
-                       )
+                       }
     generators = "cmake_find_package"
 
     def requirements(self):
