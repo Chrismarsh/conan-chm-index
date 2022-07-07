@@ -1,14 +1,8 @@
 sources:
-  8.0.1:
-    url: "https://github.com/esmf-org/esmf/archive/ESMF_8_0_1.tar.gz"
-  8.1.1:
-    url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_1_1.tar.gz"
   8.2.0:
     url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_2_0.tar.gz"
-  "8.2.1.03-beta":
-    url: "https://github.com/esmf-org/esmf/archive/refs/tags/ESMF_8_2_1_beta_snapshot_03.tar.gz"
-  "8.3.0.10-beta":
-    url: "https://github.com/esmf-org/esmf/archive/refs/tags/v8.3.0b10.tar.gz"
+  8.3.0:
+    url: "https://github.com/esmf-org/esmf/archive/refs/tags/v8.3.0.tar.gz"
 patches:
   8.2.0:
     - patch_file: "patches/esmf_8_2_0_clang12.patch"
