@@ -3,4 +3,4 @@ sources:
     url: https://github.com/oneapi-src/oneTBB/archive/v2021.3.0.tar.gz
     sha256: 8f616561603695bbb83871875d2c6051ea28f8187dbe59299961369904d1d49e
   2021.5.0:
-    url: https://github.com/oneapi-src/oneTBB/releases/download/v2021.5.0/oneapi-tbb-2021.5.0-lin.tgz
+    url: https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz
