@@ -103,11 +103,18 @@ class WindNinjaConan(ConanFile):
 
     def requirements(self):
         self.requires("boost/[>=1.75.0]@CHM/stable" )
-        self.requires("proj/[>=7.0]" )
+        self.requires("proj/9.0.1" )
 
-        self.requires("libdeflate/1.12")
-        self.requires("gdal/[>=3]" )
-        self.requires("netcdf/4.7.4")
+        # self.requires("libdeflate/1.12")
+        
+        self.requires( "gdal/3.5.2" )
+
+        #because libproj and gdal conflict on what libtiff to use
+        self.requires( "zlib/1.2.13", override=True)
+        self.requires( "libtiff/4.4.0", override=True)
+        self.requires( "sqlite3/3.39.3", override=True)
+        self.requires( "libcurl/7.85.0", override=True)
+        self.requires("netcdf/4.8.1")
         
 
     def _configure_cmake(self):
