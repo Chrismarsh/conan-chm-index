@@ -114,7 +114,7 @@ class WindNinjaConan(ConanFile):
         self.requires( "libtiff/4.4.0", override=True)
         self.requires( "sqlite3/3.39.3", override=True)
         self.requires( "libcurl/7.85.0", override=True)
-        self.requires("netcdf/4.8.1")
+        self.requires( "netcdf/4.8.1")
         
 
     def _configure_cmake(self):
