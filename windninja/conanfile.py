@@ -49,7 +49,7 @@ class WindNinjaConan(ConanFile):
                                                                           set(CMAKE_CXX_STANDARD_REQUIRED ON)
                                                                           set(CMAKE_CXX_EXTENSIONS OFF)
                                                                           add_compile_options(-w -Wno-narrowing)''')
-        if tools.os_info.is_macos and self.options.openmp:
+        if tools.os_info.is_macos and self.options.openmp and self.version == '3.7.5':
             print('!!! Macos and OMP not supported, setting openmp=false')
             self.options.openmp = False
 

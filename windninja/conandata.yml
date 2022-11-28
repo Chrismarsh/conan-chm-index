@@ -1,3 +1,5 @@
 sources:
+  "3.8.0":
+    url: "https://github.com/firelab/windninja/archive/refs/tags/3.8.0.tar.gz"
   "3.7.5":
     url: "https://github.com/firelab/windninja/archive/refs/tags/3.7.5.tar.gz"
