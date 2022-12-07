@@ -60,7 +60,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install conan --upgrade
+          pip install conan==1.54 # as per bug https://github.com/conan-io/conan-center-index/issues/14545#issuecomment-1337865894
           pip install conan_package_tools
 
       # already installed on linux images
