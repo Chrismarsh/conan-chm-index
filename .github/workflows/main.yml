@@ -93,6 +93,11 @@ jobs:
           sudo env ACCEPT_EULA=Y apt-get upgrade -y
           sudo apt-get install libcurl4-openssl-dev
 
+      - name: Update homebrew
+        if: startsWith( matrix.cfg.os, 'macos' )
+        run: |
+          brew install libomp
+
       - name: env linux
         if: startsWith( matrix.cfg.os, 'ubuntu' )
         uses: allenevans/set-env@v2.0.0
