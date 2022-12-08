@@ -97,6 +97,12 @@ jobs:
         if: startsWith( matrix.cfg.os, 'macos' )
         run: |
           brew install libomp
+          
+      #https://github.com/actions/runner-images/issues/5555#issuecomment-1140192622
+      - name: Compile a universal OpenMP
+        if: startsWith( matrix.cfg.os, 'macos' )
+        run: brew reinstall --build-from-source --formula ./shell/apple/libomp.rb
+        
 
       - name: env linux
         if: startsWith( matrix.cfg.os, 'ubuntu' )
