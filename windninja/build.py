@@ -1,6 +1,6 @@
 from cpt.packager import ConanMultiPackager
 from collections import defaultdict
-
+import os
 
 if __name__ == "__main__":
     builder = ConanMultiPackager(cppstds=[14],
