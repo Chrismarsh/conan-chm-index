@@ -1,3 +1,6 @@
 sources:
   "0.1":
     url: "https://github.com/uofs-simlab/func/archive/refs/heads/master.zip"
+  "2.0":
+    url: "https://github.com/uofs-simlab/func/archive/refs/tags/v2.0.tar.gz"
+    
